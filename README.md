@@ -1,59 +1,53 @@
-# FinanceDashboard
+# 📊 Dashboard Financeiro
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
+> **Interface analítica desenvolvida para simplificar a visualização de indicadores financeiros e fluxos de caixa.** > O projeto foca em alta performance e uma experiência de usuário (UI/UX) intuitiva e moderna.
 
-## Development server
+---
 
-To start a local development server, run:
+### 🛠️ Tecnologias Utilizadas
 
-```bash
-ng serve
-```
+* **Angular 18+** — Arquitetura moderna e robusta.
+* **TypeScript** — Tipagem estrita para maior segurança e manutenção do código.
+* **Angular Signals** — Gerenciamento de estado reativo e granular para performance superior.
+* **CSS3** — Estilização modular, garantindo componentes escaláveis e responsivos.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+### 🚀 Diferenciais Técnicos
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+* **Performance Otimizada:** Uso de estratégias avançadas para detecção de mudanças (Change Detection).
+* **Componentização:** Interface 100% baseada em componentes reutilizáveis e modulares.
+* **Foco em UI/UX:** Design limpo, focado na clareza de dados financeiros e indicadores complexos.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 📈 Status do Projeto
 
-```bash
-ng generate --help
-```
+⚠️ **Status:** `Em desenvolvimento ativo`  
+Atualmente, o foco está na construção da estrutura de componentes e serviços de *mocking* para futura integração com APIs bancárias e sistemas ERP.
 
-## Building
+---
 
-To build the project run:
+### 🔧 Como rodar o projeto localmente
 
-```bash
-ng build
-```
+Siga os passos abaixo para configurar o ambiente em sua máquina:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+1. **Clone o repositório:**
+   ```bash
+   git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
 
-## Running unit tests
+2. **Instale as dependências:**
+   ```bash
+   npm install
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+3. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   ng serve
 
-```bash
-ng test
-```
+4. **Acesse no navegador:**
+   ```bash
+    Abra http://localhost:4200/ para visualizar o dashboard.
 
-## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+   
