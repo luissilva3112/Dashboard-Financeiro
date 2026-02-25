@@ -1,0 +1,172 @@
+<div class="dashboard-container">
+  <header>
+    <h1>Resumo Financeiro</h1>
+  </header>
+
+  <div class="summary-container">
+    <div class="card">
+      <h3>Saldo Atual</h3>
+      <p [class.positive]="totalBalance() >= 0" [class.negative]="totalBalance() < 0">
+        {{ totalBalance() | currency:'BRL' }}
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Entradas</h3>
+      <p class="positive">
+        {{ finance.totalIncomes() | currency:'BRL' }}
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Saídas</h3>
+      <p class="negative">
+        {{ finance.totalExpenses() | currency:'BRL' }}
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Pendentes</h3>
+      <p class="pending">
+        {{ finance.totalPending() | currency:'BRL' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="summary-container">
+    <div class="header-actions">
+      <button class="btn-premium btn-primary" (click)="isModalOpen.set(true)">Nova Transação</button>
+      @if (isModalOpen()) {
+      <div class="modal-backdrop" (click)="isModalOpen.set(false)">
+        <div class="modal-container" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Nova Transação</h2>
+            <button class="close-btn" (click)="isModalOpen.set(false)">&times;</button>
+          </div>
+          <div class="modal-body">
+            <app-transactions (onSaveSuccess)="isModalOpen.set(false)"></app-transactions>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <button class="btn-premium btn-secondary">Adicionar Categoria</button>
+    <button class="btn-premium btn-secondary">Adicionar Pendências</button>
+    <button class="btn-premium btn-outline">Exportar Relatório</button>
+  </div>
+
+  <div class="main-content">
+    <div class="transactions-section">
+      <div class="header-row">
+        <h3>Detalhes Recentes</h3>
+        <div class="actions-group">
+
+          <div class="search-wrapper" [class.expanded]="isSearchOpen()">
+            <button class="btn-icon" (click)="isSearchOpen.set(!isSearchOpen())">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+            <input type="text" placeholder="Buscar nome ou valor..." (input)="onSearch($event)">
+          </div>
+
+          <div class="filter-container">
+            <button class="btn-icon" (click)="isFilterOpen.set(!isFilterOpen())">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="1" y1="14" x2="7" y2="14"></line>
+              <line x1="9" y1="8" x2="15" y2="8"></line>
+              <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+            </button>
+
+            @if (isFilterOpen()) {
+            <div class="filter-menu">
+              <button (click)="setFilter('all')" [class.active]="currentTypeFilter() === 'all'">Todos</button>
+              <button (click)="setFilter('income')" [class.active]="currentTypeFilter() === 'income'">Entradas</button>
+              <button (click)="setFilter('expense')" [class.active]="currentTypeFilter() === 'expense'">Saídas</button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+
+      @if (finance.filteredTransactions().length > 0) {
+      <div class="list-header">
+        <span>Data</span>
+        <span>Descrição</span>
+        <span class="text-right">Valor</span>
+      </div>
+
+      <div class="recent-list">
+        @for (item of finance.filteredTransactions(); track item.id) {
+        <div class="item">
+          <span class="date-col">{{ item.date | date:'dd/MM/yyyy' }}</span>
+
+          <div class="desc-col">
+            <span class="icon">{{ getIcon(item.category) }}</span>
+            <span class="desc">{{ item.description }}</span>
+          </div>
+
+          <div class="actions">
+            <span class="val" [class]="item.type">
+              {{ item.type === 'income' ? '+ ' : '- ' }}{{ item.value | currency:'BRL' }}
+            </span>
+
+            <button class="btn-delete" (click)="deleteTransaction(item.id)" title="Deletar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        }
+      </div>
+      } @else {
+      <div class="empty-state">
+        <div class="empty-icon"></div>
+        <h4>Nenhuma transação</h4>
+        <p>Adicione uma nova movimentação para começar.</p>
+      </div>
+      }
+    </div>
+    <div class="chart-section">
+      <h3>Distribuição de Gastos</h3>
+      <div class="filter-bar">
+        <button (click)="setFilter('all')">Todos</button>
+        <button (click)="setFilter('income')">Entradas</button>
+        <button (click)="setFilter('expense')">Saídas</button>
+      </div>
+      <div class="chart-container">
+        <canvas #financeChart></canvas>
+        @if (finance.filteredTransactions().length === 0) {
+        <div class="chart-empty-overlay">
+          <p>Sem dados para exibir</p>
+        </div>
+        }
+      </div>
+    </div>
+    @if (toast.data(); as toastData) {
+    <div class="toast-container" [class]="toastData.type">
+      <div class="toast-content">
+        @if (toastData.type === 'success') { ✅ }
+        @if (toastData.type === 'error') { ❌ }
+        {{ toastData.msg }}
+      </div>
+    </div>
+    }
+  </div>
+</div>
